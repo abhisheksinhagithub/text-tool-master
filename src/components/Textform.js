@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import Basic_Op from './Basic_Op'
 import Case_Conversion from './Case_Conversion'
@@ -13,12 +13,17 @@ import Voice_Command from './Voice_Command'
 import Text_to_Speech from './Text_to_Speech'
 
 export default function Textform(props) {
+
+    const [text, setText] = useState('')
+
     return (
         <div className=" container my-3">
 
             <label htmlFor="myBox" className="form-label fs-2 mx-1">{props.heading}</label>
 
             <textarea className="form-control" id="myBox" rows="9" placeholder='Enter text here'
+                value={text}
+                onChange={(e) => setText(e.target.value)}
                 style={{
                     outline: 'none',
                     boxShadow: 'none',
@@ -29,9 +34,10 @@ export default function Textform(props) {
 
             </textarea>
 
-            <Basic_Op />
-            <Case_Conversion />
-            <Text_Reversal />
+            <Basic_Op text={text} setText={setText}/>
+            <Case_Conversion text={text} setText={setText}/>
+            <Text_Reversal text={text} setText={setText}/>
+
             <Find_and_Replace />
             <Remove_Content />
             <Character_Limit_Controls />
