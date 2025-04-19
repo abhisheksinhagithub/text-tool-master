@@ -38,10 +38,12 @@ export default function Textform(props) {
             <Case_Conversion text={text} setText={setText}/>
             <Text_Reversal text={text} setText={setText}/>
 
-            <Find_and_Replace />
-            <Remove_Content />
-            <Character_Limit_Controls />
-            <Encrypt_Decrypt />
+            <Find_and_Replace text={text} setText={setText}/>
+            <Remove_Content text={text} setText={setText}/>
+
+            <Character_Limit_Controls text={text} setText={setText}/>
+            <Encrypt_Decrypt text={text} setText={setText}/>
+            
             <Text_to_Speech/>
             <Export />
             <Password />

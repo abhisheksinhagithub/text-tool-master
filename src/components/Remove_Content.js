@@ -1,9 +1,54 @@
-import React from 'react'
+import React, {useState} from 'react'
 
-function Remove_Content() {
-  return (
-    <div>
-      <button className="btn btn-sm mt-3 mb-2 d-block"
+function Remove_Content({ text, setText }) {
+
+    const [wordToRemove, setWordToRemove] = useState('');
+    const [charToRemove, setCharToRemove] = useState('');
+
+    const handleRemoveWord = () => {
+        if (!wordToRemove.trim()) {
+            alert('Please enter a word to remove', 'warning');
+            return;
+        }
+
+        const regex = new RegExp(`\\b${wordToRemove}\\b`, 'g');
+
+        if (!text.match(regex)) {
+            alert(`No matches found for "${wordToRemove}"`, 'danger');
+            return;
+        }
+
+        const newText = text.replace(regex, '').replace(/\s+/g, ' ').trim();
+
+        setText(newText);
+        alert(`Removed "${wordToRemove}"`, 'success');
+        setWordToRemove('');
+    }
+
+
+    const handleRemoveChar = () => {
+        // Empty input check
+        if (!charToRemove) {
+            alert('Please enter a character', 'warning');
+            return;
+        }
+
+        // Character not found check (case-sensitive)
+        if (!text.includes(charToRemove)) {
+            alert(`"${charToRemove}" not found`, 'danger');
+            return;
+        }
+
+        // Perform removal
+        const newText = text.split(charToRemove).join('');
+        setText(newText);
+        alert(`Removed all "${charToRemove}" characters`, 'success');
+        setCharToRemove(''); // Clear input
+    };
+
+    return (
+        <div>
+            <button className="btn btn-sm mt-3 mb-2 d-block"
                 style={{
                     backgroundColor: '#34004a',
                     color: 'white',
@@ -21,6 +66,8 @@ function Remove_Content() {
                         type="text"
                         className="form-control form-control-sm"
                         placeholder="Enter word to remove"
+                        value={wordToRemove}
+                        onChange={(e) => setWordToRemove(e.target.value)}
                         style={{
                             outline: 'none',
                             boxShadow: 'none',
@@ -32,6 +79,8 @@ function Remove_Content() {
 
                 <button
                     className="btn btn-danger btn-sm me-3"
+                    onClick={handleRemoveWord}
+                    disabled={!wordToRemove.trim() || !text.trim()}
 
                 >
                     Remove Word
@@ -44,6 +93,8 @@ function Remove_Content() {
                         maxLength={1}
                         className="form-control form-control-sm"
                         placeholder="Remove character"
+                        value={charToRemove}
+                        onChange={(e) => setCharToRemove(e.target.value)}
                         style={{
                             outline: 'none',
                             boxShadow: 'none',
@@ -55,12 +106,14 @@ function Remove_Content() {
                 </div>
                 <button
                     className="btn btn-danger btn-sm"
+                    onClick={handleRemoveChar}
+                    disabled={!charToRemove || !text.trim()}
                 >
                     Remove Char
                 </button>
             </div>
-    </div>
-  )
+        </div>
+    )
 }
 
 export default Remove_Content
