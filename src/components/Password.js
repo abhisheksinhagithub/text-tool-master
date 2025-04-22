@@ -1,9 +1,59 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-function Password() {
-  return (
-    <div>
-      <button className="btn btn-sm mt-3 mb-2 d-block"
+function Password({ setText }) {
+
+    const [password, setPassword] = useState('');
+    const [passwordLength, setPasswordLength] = useState(12);
+    
+    const [passwordOptions, setPasswordOptions] = useState({
+
+        uppercase: true,
+        lowercase: true,
+        numbers: true,
+        symbols: true
+    });
+
+
+    const generatePassword = () => {
+        const uppercaseChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const lowercaseChars = 'abcdefghijklmnopqrstuvwxyz';
+        const numberChars = '0123456789';
+        const symbolChars = '!@#$%^&*()_+-=[]{}|;:,.<>?';
+
+        let availableChars = '';
+        if (passwordOptions.uppercase) availableChars += uppercaseChars;
+        if (passwordOptions.lowercase) availableChars += lowercaseChars;
+        if (passwordOptions.numbers) availableChars += numberChars;
+        if (passwordOptions.symbols) availableChars += symbolChars;
+
+        if (!availableChars) {
+            alert('Please select at least one character type', 'warning');
+            return;
+        }
+
+        let generatedPassword = '';
+        for (let i = 0; i < passwordLength; i++) {
+            const randomIndex = Math.floor(Math.random() * availableChars.length);
+            generatedPassword += availableChars[randomIndex];
+        }
+
+        setPassword(generatedPassword);
+        setText(generatedPassword); // Optional: auto-fill the main text area
+        alert('Password generated!', 'success');
+    };
+
+    const copyPassword = () => {
+        if (!password) {
+            alert('No password to copy', 'warning');
+            return;
+        }
+        navigator.clipboard.writeText(password);
+        alert('Password copied to clipboard!', 'success');
+    };
+
+    return (
+        <div>
+            <button className="btn btn-sm mt-3 mb-2 d-block"
                 style={{
                     backgroundColor: '#34004a',
                     color: 'white',
@@ -18,7 +68,7 @@ function Password() {
             <div className="d-flex align-items-center flex-wrap">
                 {/* Range Input - Made compact */}
                 <div className="me-3" style={{ minWidth: "150px" }}>
-                    <label className="form-label small mb-1 d-block">Length:</label>
+                    <label className="form-label small mb-1 d-block">Length:{passwordLength}</label>
                     <div className="d-flex align-items-center">
                         <input
                             type="range"
@@ -26,7 +76,8 @@ function Password() {
                             min="6"
                             max="32"
                             step="1"
-                            defaultValue="12"
+                            value={passwordLength}
+                            onChange={(e) => setPasswordLength(e.target.value)}
                         />
                     </div>
                 </div>
@@ -45,6 +96,9 @@ function Password() {
                                 backgroundColor: '#673ab7',
                                 transition: 'border-color 0.15s ease-in-out'
                             }}
+
+                            checked={passwordOptions.uppercase}
+                            onChange={() => setPasswordOptions({ ...passwordOptions, uppercase: !passwordOptions.uppercase })}
                         />
                         <label className="form-check-label small" htmlFor="uppercaseCheck" style={{ color: '#34004a' }}>
                             Uppercase (A-Z)
@@ -62,6 +116,9 @@ function Password() {
                                 backgroundColor: '#673ab7',
                                 transition: 'border-color 0.15s ease-in-out'
                             }}
+
+                            checked={passwordOptions.lowercase}
+                            onChange={() => setPasswordOptions({ ...passwordOptions, lowercase: !passwordOptions.lowercase })}
                         />
                         <label className="form-check-label small" htmlFor="lowercaseCheck" style={{ color: '#34004a' }}>
                             Lowercase (a-z)
@@ -79,6 +136,9 @@ function Password() {
                                 backgroundColor: '#673ab7',
                                 transition: 'border-color 0.15s ease-in-out'
                             }}
+
+                            checked={passwordOptions.numbers}
+                            onChange={() => setPasswordOptions({ ...passwordOptions, numbers: !passwordOptions.numbers })}
                         />
                         <label className="form-check-label small" htmlFor="numbersCheck" style={{ color: '#34004a' }}>
                             Numbers (0-9)
@@ -96,6 +156,8 @@ function Password() {
                                 backgroundColor: '#673ab7',
                                 transition: 'border-color 0.15s ease-in-out'
                             }}
+                            checked={passwordOptions.symbols}
+                            onChange={() => setPasswordOptions({ ...passwordOptions, symbols: !passwordOptions.symbols })}
                         />
                         <label className="form-check-label small" htmlFor="symbolsCheck" style={{ color: '#34004a' }}>
                             Symbols (!@#$)
@@ -103,19 +165,19 @@ function Password() {
                     </div>
                 </div>
 
-                <button type="button" className="btn btn-sm mt-4 me-2" style={{
+                <button onClick={generatePassword}  type="button" className="btn btn-sm mt-4 me-2" style={{
                     backgroundColor: '#673ab7',
                     color: 'white'
                 }}> <i className="ri-lock-password-fill"></i> Generate Password</button>
 
-                <button type="button" className="btn btn-sm mt-4 me-2" style={{
+                <button onClick={copyPassword} type="button" className="btn btn-sm mt-4 me-2" style={{
                     backgroundColor: '#673ab7',
                     color: 'white'
                 }}>Copy Password</button>
 
             </div>
-    </div>
-  )
+        </div>
+    )
 }
 
 export default Password
