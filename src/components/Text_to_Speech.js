@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
-function Text_to_Speech({ text }) {
+function Text_to_Speech({ text, mode }) {
+
+  const inputColor = mode === 'dark' ? 'rgb(20, 20, 20)' : 'white';
+  const textColor = mode === 'dark' ? 'white' : 'black';
 
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [voice, setVoice] = useState(null); // For voice selection
@@ -74,7 +77,7 @@ function Text_to_Speech({ text }) {
     <div>
       <button className="btn btn-sm mt-3 mb-2 d-block"
         style={{
-          backgroundColor: '#34004a',
+          backgroundColor: 'tomato',
           color: 'white',
           pointerEvents: 'none',
           cursor: 'default'
@@ -106,7 +109,9 @@ function Text_to_Speech({ text }) {
               outline: 'none',
               boxShadow: 'none',
               border: '1px solid black',
-              transition: 'border-color 0.15s ease-in-out'
+              transition: 'border-color 0.15s ease-in-out',
+              backgroundColor: inputColor,
+              color: textColor
             }}
             disabled={isSpeaking}
 

@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 
-function Encrypt_Decrypt({ text, setText }) {
+function Encrypt_Decrypt({ text, setText, mode }) {
+
+    const inputColor = mode === 'dark' ? 'rgb(20, 20, 20)' : 'white';
+    const textColor = mode === 'dark' ? 'white' : 'black';
+
     const [encryptionKey, setEncryptionKey] = useState('');
     const [isEncrypted, setIsEncrypted] = useState(false);
     const [storedKeyHash, setStoredKeyHash] = useState('');
@@ -94,7 +98,7 @@ function Encrypt_Decrypt({ text, setText }) {
             <button
                 className="btn btn-sm mt-3 mb-2 d-block"
                 style={{
-                    backgroundColor: '#34004a',
+                    backgroundColor: 'tomato',
                     color: 'white',
                     pointerEvents: 'none',
                     cursor: 'default'
@@ -107,15 +111,17 @@ function Encrypt_Decrypt({ text, setText }) {
                 <div className="input-group me-1" style={{ width: '410px' }}>
                     <input
                         type="password"
-                        className="form-control form-control-sm"
+                        className="form-control form-control-sm custom-textarea"
                         placeholder="Encryption Key"
                         value={encryptionKey}
                         onChange={(e) => setEncryptionKey(e.target.value)}
                         style={{
                             outline: 'none',
                             boxShadow: 'none',
-                            border: '1px solid #673ab7',
-                            transition: 'border-color 0.15s ease-in-out'
+                            border: '1px solid tomato',
+                            transition: 'border-color 0.15s ease-in-out',
+                            backgroundColor: inputColor,
+                            color: textColor
                         }}
                     />
                 </div>

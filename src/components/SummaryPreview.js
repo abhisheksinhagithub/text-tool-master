@@ -2,6 +2,10 @@ import React from 'react';
 
 function SummaryPreview(props) {
     const text = props.text || "";
+    const backgroundColor = props.mode === 'dark' ? '#212529' : '#f8f9fa';
+    const inputColor = props.mode === 'dark' ? 'rgb(20, 20, 20)' : 'white';
+    const textColor = props.mode === 'dark' ? 'white' : 'black';
+
 
     // Calculations
     const words = text.trim().split(/\s+/).filter(word => word.length > 0).length;
@@ -10,7 +14,7 @@ function SummaryPreview(props) {
     const readingTime = (0.008 * text.split(" ").filter(word => word.length > 0).length).toFixed(2);
 
     return (
-        <div className='container my-3'>
+        <div className='container my-3 rounded' style={{ backgroundColor: backgroundColor }}>
             <div className='text-center mb-3 fs-3'>{props.heading}</div>
 
             <div className="d-flex align-items-center flex-wrap">
@@ -24,8 +28,10 @@ function SummaryPreview(props) {
                         style={{
                             outline: 'none',
                             boxShadow: 'none',
-                            border: '1px solid #673ab7',
-                            transition: 'border-color 0.15s ease-in-out'
+                            border: '1px solid Tomato',
+                            transition: 'border-color 0.15s ease-in-out',
+                            backgroundColor: inputColor,
+                            color: textColor
                         }}
                     />
                     <button className="btn btn-danger btn-sm" style={{
@@ -44,8 +50,10 @@ function SummaryPreview(props) {
                         style={{
                             outline: 'none',
                             boxShadow: 'none',
-                            border: '1px solid #673ab7',
-                            transition: 'border-color 0.15s ease-in-out'
+                            border: '1px solid Tomato',
+                            transition: 'border-color 0.15s ease-in-out',
+                            backgroundColor: inputColor,
+                            color: textColor
                         }}
                     />
                     <button className="btn btn-danger btn-sm" style={{
@@ -64,8 +72,10 @@ function SummaryPreview(props) {
                         style={{
                             outline: 'none',
                             boxShadow: 'none',
-                            border: '1px solid #673ab7',
-                            transition: 'border-color 0.15s ease-in-out'
+                            border: '1px solid Tomato',
+                            transition: 'border-color 0.15s ease-in-out',
+                            backgroundColor: inputColor,
+                            color: textColor
                         }}
                     />
                     <button className="btn btn-danger btn-sm" style={{
@@ -84,8 +94,10 @@ function SummaryPreview(props) {
                         style={{
                             outline: 'none',
                             boxShadow: 'none',
-                            border: '1px solid #673ab7',
-                            transition: 'border-color 0.15s ease-in-out'
+                            border: '1px solid Tomato',
+                            transition: 'border-color 0.15s ease-in-out',
+                            backgroundColor: inputColor,
+                            color: textColor
                         }}
                     />
                     <button className="btn btn-danger btn-sm" style={{
@@ -97,7 +109,8 @@ function SummaryPreview(props) {
 
             <button className="btn btn-sm mt-3 mb-2 d-block"
                 style={{
-                    backgroundColor: '#34004a',
+                    // backgroundColor: '#34004a',
+                    backgroundColor: 'Tomato',
                     color: 'white',
                     pointerEvents: 'none',
                     cursor: 'default'
@@ -106,7 +119,7 @@ function SummaryPreview(props) {
                 Preview
             </button>
 
-            <p className='fs-6'>{text.length > 0 ? text : "Nothing to Preview !"}</p>
+            <p className='fs-6 pb-2'>{text.length > 0 ? text : "Nothing to Preview !"}</p>
         </div>
     )
 }

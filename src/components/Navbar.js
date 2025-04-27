@@ -4,7 +4,8 @@ import PropTypes from 'prop-types'
 
 export default function Navbar(props) {
     return (
-        <nav className="navbar navbar-expand-lg bg-body-tertiary">
+        // <nav className="navbar navbar-expand-lg bg-body-tertiary">
+        <nav className={`navbar navbar-expand-lg ${props.mode === 'dark' ? 'navbar-dark bg-dark' : 'navbar-light bg-light'}`}>
 
             <div className="container-fluid">
                 <a className="navbar-brand" href="/">{props.title}</a>
@@ -33,10 +34,14 @@ export default function Navbar(props) {
 
                     </ul>
 
-                    <form className="d-flex" role="search">
-                        <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                        <button className="btn btn-outline-success" type="submit">Search</button>
-                    </form>
+                    <div className="form-check form-switch">
+                        <input onClick={props.toggleMode} className="form-check-input" type="checkbox" role="switch" id="switchCheckDefault" style={{
+                            outline: '1px solid black',
+                            boxShadow: 'none',
+                            transition: 'border-color 0.15s ease-in-out'
+                        }} />
+                        <label className="form-check-label" htmlFor="switchCheckDefault"> {props.mode === 'dark' ? 'Light Mode' : 'Dark Mode'}</label>
+                    </div>
 
                 </div>
             </div>
@@ -46,7 +51,9 @@ export default function Navbar(props) {
 
 Navbar.propTypes = {
     title: PropTypes.string.isRequired,
-    about: PropTypes.string.isRequired
+    about: PropTypes.string.isRequired,
+    mode: PropTypes.string.isRequired,
+    toggleMode: PropTypes.func.isRequired
 }
 
 Navbar.defaultProps = {

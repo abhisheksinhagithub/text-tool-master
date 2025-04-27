@@ -36,3 +36,9 @@
     transform: rotate(360deg);
   }
 }
+
+
+.custom-textarea::placeholder {
+  color: gray; /* or any color you want */
+  opacity: 1; /* make sure it's fully visible */
+}

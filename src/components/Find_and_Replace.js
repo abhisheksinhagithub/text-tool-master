@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 
-function Find_and_Replace({ text, setText }) {
+function Find_and_Replace({ text, setText, mode }) {
+
+    const inputColor = mode === 'dark' ? 'rgb(20, 20, 20)' : 'white';
+    const textColor = mode === 'dark' ? 'white' : 'black';
 
     const [findText, setFindText] = useState('');
     const [replaceText, setReplaceText] = useState('');
@@ -46,7 +49,7 @@ function Find_and_Replace({ text, setText }) {
         <div>
             <button className="btn btn-sm mt-3 mb-2 d-block"
                 style={{
-                    backgroundColor: '#34004a',
+                    backgroundColor: 'tomato',
                     color: 'white',
                     pointerEvents: 'none',
                     cursor: 'default'
@@ -66,15 +69,17 @@ function Find_and_Replace({ text, setText }) {
                         }}>Find</span>
                         <input
                             type="text"
-                            className="form-control form-control-sm"
+                            className="form-control form-control-sm custom-textarea"
                             placeholder="Text to find"
                             value={findText}
                             onChange={(e) => setFindText(e.target.value)}
                             style={{
                                 outline: 'none',
                                 boxShadow: 'none',
-                                border: '1px solid #673ab7',
-                                transition: 'border-color 0.15s ease-in-out'
+                                border: '1px solid tomato',
+                                transition: 'border-color 0.15s ease-in-out',
+                                backgroundColor: inputColor,
+                                color: textColor
                             }}
                         />
                     </div>
@@ -90,15 +95,17 @@ function Find_and_Replace({ text, setText }) {
                         }}>Replace</span>
                         <input
                             type="text"
-                            className="form-control form-control-sm"
+                            className="form-control form-control-sm custom-textarea"
                             placeholder="Replacement text"
                             value={replaceText}
                             onChange={(e) => setReplaceText(e.target.value)}
                             style={{
                                 outline: 'none',
                                 boxShadow: 'none',
-                                border: '1px solid #673ab7',
-                                transition: 'border-color 0.15s ease-in-out'
+                                border: '1px solid tomato',
+                                transition: 'border-color 0.15s ease-in-out',
+                                backgroundColor: inputColor,
+                                color: textColor
                             }}
                         />
                     </div>

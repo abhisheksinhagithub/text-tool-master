@@ -1,6 +1,9 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 
-function Remove_Content({ text, setText }) {
+function Remove_Content({ text, setText, mode }) {
+
+    const inputColor = mode === 'dark' ? 'rgb(20, 20, 20)' : 'white';
+    const textColor = mode === 'dark' ? 'white' : 'black';
 
     const [wordToRemove, setWordToRemove] = useState('');
     const [charToRemove, setCharToRemove] = useState('');
@@ -50,7 +53,7 @@ function Remove_Content({ text, setText }) {
         <div>
             <button className="btn btn-sm mt-3 mb-2 d-block"
                 style={{
-                    backgroundColor: '#34004a',
+                    backgroundColor: 'tomato',
                     color: 'white',
                     pointerEvents: 'none',
                     cursor: 'default'
@@ -64,15 +67,17 @@ function Remove_Content({ text, setText }) {
                 <div className="input-group me-1" style={{ width: '300px' }}>
                     <input
                         type="text"
-                        className="form-control form-control-sm"
+                        className="form-control form-control-sm custom-textarea"
                         placeholder="Enter word to remove"
                         value={wordToRemove}
                         onChange={(e) => setWordToRemove(e.target.value)}
                         style={{
                             outline: 'none',
                             boxShadow: 'none',
-                            border: '1px solid #673ab7',
-                            transition: 'border-color 0.15s ease-in-out'
+                            border: '1px solid tomato',
+                            transition: 'border-color 0.15s ease-in-out',
+                            backgroundColor: inputColor,
+                            color: textColor
                         }}
                     />
                 </div>
@@ -91,15 +96,17 @@ function Remove_Content({ text, setText }) {
                     <input
                         type="text"
                         maxLength={1}
-                        className="form-control form-control-sm"
+                        className="form-control form-control-sm custom-textarea"
                         placeholder="Remove character"
                         value={charToRemove}
                         onChange={(e) => setCharToRemove(e.target.value)}
                         style={{
                             outline: 'none',
                             boxShadow: 'none',
-                            border: '1px solid #673ab7',
-                            transition: 'border-color 0.15s ease-in-out'
+                            border: '1px solid tomato',
+                            transition: 'border-color 0.15s ease-in-out',
+                            backgroundColor: inputColor,
+                            color: textColor
                         }}
                     />
 

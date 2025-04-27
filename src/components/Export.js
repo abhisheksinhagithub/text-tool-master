@@ -59,7 +59,7 @@ function Export(props) {
     <div>
       <button className="btn btn-sm mt-3 mb-2 d-block"
         style={{
-          backgroundColor: '#34004a',
+          backgroundColor: 'tomato',
           color: 'white',
           pointerEvents: 'none',
           cursor: 'default'

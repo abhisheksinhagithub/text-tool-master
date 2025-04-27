@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 
 function Password({ setText }) {
-
+    
     const [password, setPassword] = useState('');
     const [passwordLength, setPasswordLength] = useState(12);
-    
+
     const [passwordOptions, setPasswordOptions] = useState({
 
         uppercase: true,
@@ -55,7 +55,7 @@ function Password({ setText }) {
         <div>
             <button className="btn btn-sm mt-3 mb-2 d-block"
                 style={{
-                    backgroundColor: '#34004a',
+                    backgroundColor: 'tomato',
                     color: 'white',
                     pointerEvents: 'none',
                     cursor: 'default'
@@ -100,7 +100,7 @@ function Password({ setText }) {
                             checked={passwordOptions.uppercase}
                             onChange={() => setPasswordOptions({ ...passwordOptions, uppercase: !passwordOptions.uppercase })}
                         />
-                        <label className="form-check-label small" htmlFor="uppercaseCheck" style={{ color: '#34004a' }}>
+                        <label className="form-check-label small" htmlFor="uppercaseCheck" style={{ color: '#ff7e00' }}>
                             Uppercase (A-Z)
                         </label>
                     </div>
@@ -120,7 +120,7 @@ function Password({ setText }) {
                             checked={passwordOptions.lowercase}
                             onChange={() => setPasswordOptions({ ...passwordOptions, lowercase: !passwordOptions.lowercase })}
                         />
-                        <label className="form-check-label small" htmlFor="lowercaseCheck" style={{ color: '#34004a' }}>
+                        <label className="form-check-label small" htmlFor="lowercaseCheck" style={{ color: '#ff7e00' }}>
                             Lowercase (a-z)
                         </label>
                     </div>
@@ -140,7 +140,7 @@ function Password({ setText }) {
                             checked={passwordOptions.numbers}
                             onChange={() => setPasswordOptions({ ...passwordOptions, numbers: !passwordOptions.numbers })}
                         />
-                        <label className="form-check-label small" htmlFor="numbersCheck" style={{ color: '#34004a' }}>
+                        <label className="form-check-label small" htmlFor="numbersCheck" style={{ color: '#ff7e00' }}>
                             Numbers (0-9)
                         </label>
                     </div>
@@ -159,13 +159,13 @@ function Password({ setText }) {
                             checked={passwordOptions.symbols}
                             onChange={() => setPasswordOptions({ ...passwordOptions, symbols: !passwordOptions.symbols })}
                         />
-                        <label className="form-check-label small" htmlFor="symbolsCheck" style={{ color: '#34004a' }}>
+                        <label className="form-check-label small" htmlFor="symbolsCheck" style={{ color: '#ff7e00' }}>
                             Symbols (!@#$)
                         </label>
                     </div>
                 </div>
 
-                <button onClick={generatePassword}  type="button" className="btn btn-sm mt-4 me-2" style={{
+                <button onClick={generatePassword} type="button" className="btn btn-sm mt-4 me-2" style={{
                     backgroundColor: '#673ab7',
                     color: 'white'
                 }}> <i className="ri-lock-password-fill"></i> Generate Password</button>

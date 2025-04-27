@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-function Character_Limit_Controls({ text, setText }) {
+function Character_Limit_Controls({ text, setText, mode }) {
+
+    const inputColor = mode === 'dark' ? 'rgb(20, 20, 20)' : 'white';
+    const textColor = mode === 'dark' ? 'white' : 'black';
     
     const [charLimit, setCharLimit] = useState(0);
     const [isLimitEnabled, setIsLimitEnabled] = useState(false);
@@ -69,7 +72,7 @@ function Character_Limit_Controls({ text, setText }) {
             <button
                 className="btn btn-sm mt-3 mb-2 d-block"
                 style={{
-                    backgroundColor: '#34004a',
+                    backgroundColor: 'tomato',
                     color: 'white',
                     pointerEvents: 'none',
                     cursor: 'default'
@@ -84,7 +87,7 @@ function Character_Limit_Controls({ text, setText }) {
                         ref={inputRef}
                         type="number"
                         min="1"
-                        className="form-control form-control-sm"
+                        className="form-control form-control-sm custom-textarea"
                         placeholder="Set Character Limit"
                         value={inputValue}
                         onChange={handleInputChange}
@@ -93,9 +96,11 @@ function Character_Limit_Controls({ text, setText }) {
                         style={{
                             outline: 'none',
                             boxShadow: 'none',
-                            border: `1px solid ${isLimitEnabled ? '#6c757d' : '#673ab7'}`,
+                            border: `1px solid ${isLimitEnabled ? 'orange' : 'tomato'}`,
                             backgroundColor: isLimitEnabled ? '#e9ecef' : 'white',
-                            transition: 'all 0.3s ease'
+                            transition: 'all 0.3s ease',
+                            backgroundColor: inputColor,
+                            color: textColor
                         }}
                     />
                 </div>
