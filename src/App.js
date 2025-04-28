@@ -7,9 +7,11 @@ import Navbar from './components/Navbar';
 import Textform from './components/Textform';
 import SummaryPreview from './components/SummaryPreview';
 
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Shortcuts from './components/Shortcuts';
+// import Control from './components/Control';
 
 function App() {
-
   const [text, setText] = useState('');
   const [mode, setMode] = useState('light');
 
@@ -31,13 +33,37 @@ function App() {
 
   return (
     <>
-      <Navbar title='TTM' about='About' mode={mode} toggleMode={toggleMode} />
-      
-      <ToastContainer position="top-center" autoClose={2000} />
-      
-      <Textform heading='Unleash Your Words - Analyze, Transform & Perfect !' text={text} setText={setText} mode={mode} />
-      <SummaryPreview heading='Your Text Summary' text={text} mode={mode} />
-      <About mode={mode} />
+      <Router>
+        <Navbar title='TTM' about='About' mode={mode} toggleMode={toggleMode} />
+        <ToastContainer position="top-center" autoClose={2000} />
+
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <Textform
+                  heading='Unleash Your Words - Analyze, Transform & Perfect !'
+                  text={text}
+                  setText={setText}
+                  mode={mode}
+                />
+                <SummaryPreview
+                  heading='Your Text Summary'
+                  text={text}
+                  mode={mode}
+                />
+              </>
+            }
+          />
+
+          <Route path="/shortcuts" element={<Shortcuts mode={mode} />} />
+          <Route path="/about" element={<About mode={mode} />} />
+
+        </Routes>
+
+      </Router>
+
     </>
   );
 }

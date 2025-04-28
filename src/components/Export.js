@@ -1,34 +1,55 @@
-import React from 'react'
-
+import React from 'react';
 import { saveAs } from 'file-saver';
-import jsPDF from 'jspdf';
+import { jsPDF } from 'jspdf';
 import { Document, Paragraph, Packer, TextRun } from 'docx';
 import { toast } from 'react-toastify';
 
 function Export(props) {
-
+  // Improved TXT export with timestamp and metadata
   const exportAsTXT = () => {
     if (!props.text.trim()) {
       toast.error('No text to export');
       return;
     }
-    const blob = new Blob([props.text], { type: 'text/plain;charset=utf-8' });
-    saveAs(blob, 'document.txt');
+
+    const normalizedText = props.text.replace(/\r?\n/g, '\r\n');
+    const metaHeader = `=== Exported Text ===\r\nDate: ${new Date().toLocaleString()}\r\n\r\n`;
+    const fullText = metaHeader + normalizedText;
+
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const blob = new Blob([fullText], { type: 'text/plain;charset=utf-8' });
+    saveAs(blob, `document-${timestamp}.txt`);
     toast.success('Exported as TXT file');
   };
 
+  // Improved PDF export with auto-pagination and margins
   const exportAsPDF = () => {
     if (!props.text.trim()) {
       toast.error('No text to export');
       return;
     }
+
     const doc = new jsPDF();
-    doc.text(props.text, 10, 10);
-    doc.save('document.pdf');
+    const margin = 15;
+    const maxWidth = doc.internal.pageSize.getWidth() - margin * 2;
+    const lines = doc.splitTextToSize(props.text, maxWidth);
+
+    let y = 20;
+    lines.forEach(line => {
+      if (y > doc.internal.pageSize.getHeight() - 20) {
+        doc.addPage();
+        y = 20;
+      }
+      doc.text(line, margin, y);
+      y += 7;
+    });
+
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    doc.save(`document-${timestamp}.pdf`);
     toast.success('Exported as PDF file');
   };
 
-  // New DOCX export using docx
+  // Improved DOCX export with formatting
   const exportAsDOC = async () => {
     if (!props.text.trim()) {
       toast.error('No text to export');
@@ -38,21 +59,37 @@ function Export(props) {
     try {
       const doc = new Document({
         sections: [{
-          properties: {},
-          children: props.text.split('\n').map(line =>
+          properties: {
+            page: {
+              margin: { top: 1000, bottom: 1000, left: 1000, right: 1000 }
+            }
+          },
+          children: [
             new Paragraph({
-              children: [new TextRun(line)]
-            })
-          )
+              children: [new TextRun({
+                text: "Exported Document",
+                bold: true,
+                size: 24,
+              })],
+              spacing: { after: 400 },
+            }),
+            ...props.text.split('\n').map(line =>
+              new Paragraph({
+                children: [new TextRun(line)],
+                spacing: { line: 300 },
+              })
+            )
+          ]
         }]
       });
 
       const blob = await Packer.toBlob(doc);
-      saveAs(blob, 'document.docx');
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+      saveAs(blob, `document-${timestamp}.docx`);
       toast.success('Exported as DOCX file');
     } catch (error) {
-      console.error('DOCX export error:', error);
-      toast.error('Failed to export as DOCX file');
+      toast.error(`DOCX export failed: ${error.message}`);
+      console.error('DOCX error:', error);
     }
   };
 
@@ -69,13 +106,17 @@ function Export(props) {
         Export Options
       </button>
 
-      <button disabled={!props.text.trim()} onClick={exportAsTXT} type="button" className="btn btn-success btn-sm me-2"><i className="ri-export-fill"></i> Export as TXT</button>
-      <button disabled={!props.text.trim()} onClick={exportAsPDF} type="button" className="btn btn-primary btn-sm me-2"><i className="ri-export-fill"></i> Export as PDF</button>
-      <button disabled={!props.text.trim()} onClick={exportAsDOC} type="button" className="btn btn-warning btn-sm me-2"><i className="ri-export-fill"></i> Export as DOC</button>
-
-
+      <button disabled={!props.text.trim()} onClick={exportAsTXT} className="btn btn-success btn-sm me-2">
+        <i className="ri-export-fill"></i> Export as TXT
+      </button>
+      <button disabled={!props.text.trim()} onClick={exportAsPDF} className="btn btn-primary btn-sm me-2">
+        <i className="ri-export-fill"></i> Export as PDF
+      </button>
+      <button disabled={!props.text.trim()} onClick={exportAsDOC} className="btn btn-warning btn-sm me-2">
+        <i className="ri-export-fill"></i> Export as DOC
+      </button>
     </div>
-  )
+  );
 }
 
-export default Export
+export default Export;

@@ -9,44 +9,6 @@ function Voice_Command({ setText, text }) {
   const [shortcutsEnabled, setShortcutsEnabled] = useState(false);
   const recognitionRef = useRef(null);
 
-  // State for encryption
-  const [encryptionKey, setEncryptionKey] = useState('');
-  const [isEncrypted, setIsEncrypted] = useState(false);
-  const [storedKeyHash, setStoredKeyHash] = useState('');
-
-  // State for text-to-speech
-  const [isSpeaking, setIsSpeaking] = useState(false);
-  const [voice, setVoice] = useState(null);
-  const [voices, setVoices] = useState([]);
-
-  // State for password generator
-  const [passwordOptions, setPasswordOptions] = useState({
-    uppercase: true,
-    lowercase: true,
-    numbers: true,
-    symbols: true
-  });
-  
-  const [passwordLength, setPasswordLength] = useState(12);
-
-  // Load voices for text-to-speech
-  useEffect(() => {
-    const loadVoices = () => {
-      const availableVoices = window.speechSynthesis.getVoices();
-      setVoices(availableVoices);
-      if (availableVoices.length > 0) {
-        setVoice(availableVoices[0]);
-      }
-    };
-
-    window.speechSynthesis.onvoiceschanged = loadVoices;
-    loadVoices();
-
-    return () => {
-      window.speechSynthesis.onvoiceschanged = null;
-      window.speechSynthesis.cancel();
-    };
-  }, []);
 
   // Keyboard shortcuts handler
   useEffect(() => {
@@ -59,10 +21,10 @@ function Voice_Command({ setText, text }) {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [shortcutsEnabled, text, encryptionKey, passwordOptions, passwordLength]);
+  }, [shortcutsEnabled]);
 
   const handleKeyDown = (e) => {
-    if (!shortcutsEnabled) return;
+    if (!shortcutsEnabled || text.length===0) return;
 
     // Basic Operations (Ctrl + ...)
     if (e.ctrlKey && !e.altKey && !e.shiftKey) {
@@ -70,33 +32,25 @@ function Voice_Command({ setText, text }) {
       switch (e.key.toLowerCase()) {
         case 'u': // Uppercase
           if (text.length > 0) setText(text.toUpperCase());
+          toast.success('Converted to UpperCase!');
           break;
         case 'l': // Lowercase
           if (text.length > 0) setText(text.toLowerCase());
+          toast.success('Converted to LowerCase!');
           break;
         case 'c': // Copy
           if (text.length > 0) {
             navigator.clipboard.writeText(text);
-            alert("Text copied to clipboard!");
+            toast.success('Copied to clipboard!');
           }
           break;
         case 'x': // Clear
           if (text.length > 0) setText('');
+          toast.success('Text cleared!');
           break;
         case 's': // Remove extra spaces
           if (text.length > 0) setText(text.replace(/\s+/g, ' ').trim());
-          break;
-        case 'e': // Encrypt
-          handleEncrypt();
-          break;
-        case 'd': // Decrypt
-          handleDecrypt();
-          break;
-        case 'p': // Generate password
-          generatePassword();
-          break;
-        case 't': // Text to speech
-          handleTextToSpeech();
+          toast.success('Removed extra spaces!');
           break;
         case '1': // Export as TXT
           exportAsTXT();
@@ -116,27 +70,17 @@ function Voice_Command({ setText, text }) {
     if (e.ctrlKey && e.shiftKey) {
       e.preventDefault();
       switch (e.key.toLowerCase()) {
-        case 't': // Title Case
-          if (text.length > 0) {
-            setText(text.toLowerCase().split(' ').map(word =>
-              word.length > 0 ? word[0].toUpperCase() + word.slice(1) : word
-            ).join(' '));
-          }
+        case 'i': // Title Case
+          handleTitleCase();
           break;
-        case 's': // Sentence Case
-          if (text.length > 0) {
-            setText(text.toLowerCase().replace(/(^\s*\w|[.!?]+(\s+|)\w)/g, match => match.toUpperCase()));
-          }
+        case 'e': // Sentence Case
+          handleSentenceCase();
           break;
         case 'g': // Toggle Case
-          if (text.length > 0) {
-            setText(text.split('').map(char =>
-              char === char.toUpperCase() ? char.toLowerCase() : char.toUpperCase()
-            ).join(''));
-          }
+          handleToggleCase();
           break;
         default:
-          break;
+          return;
       }
     }
 
@@ -145,22 +89,13 @@ function Voice_Command({ setText, text }) {
       e.preventDefault();
       switch (e.key.toLowerCase()) {
         case 'l': // Reverse Lines
-          if (text.length > 0) setText(text.split('\n').reverse().join('\n'));
+          handleReverseLine();
           break;
         case 'w': // Reverse Words
-          if (text.length > 0) setText(text.split(/\s+/).filter(word => word.length > 0).reverse().join(' '));
+          handleReverseWord();
           break;
-        case 's': // Reverse Sentences
-          if (text.length > 0) {
-            const sentences = text.split(/([.!?])\s+/);
-            const reconstructed = [];
-            for (let i = 0; i < sentences.length; i += 2) {
-              if (sentences[i]) {
-                reconstructed.push(sentences[i] + (sentences[i + 1] ? sentences[i + 1] : ''));
-              }
-            }
-            setText(reconstructed.reverse().join(' '));
-          }
+        case 'z': // Reverse Sentences
+          handleReverseSentence();
           break;
         default:
           break;
@@ -168,135 +103,91 @@ function Voice_Command({ setText, text }) {
     }
   };
 
-  // Encryption functions
-  const isValidKey = () => {
-    if (!encryptionKey.trim()) {
-      toast.error('Please enter an encryption key');
-      return false;
-    }
-    if (encryptionKey.length < 8) {
-      toast.error('Encryption key must be at least 8 characters long');
-      return false;
-    }
-    return true;
+
+  const handleReverseLine = () => {
+    const lines = text.split('\n');
+    const reversedLines = [...lines].reverse().join('\n');
+    setText(reversedLines);
+    toast.success('Lines reversed successfully!');
   };
 
-  const xorEncryptDecrypt = (input, key) => {
-    return input.split('').map((char, i) =>
-      String.fromCharCode(char.charCodeAt(0) ^ key.charCodeAt(i % key.length))
-    ).join('');
+  const handleReverseWord = () => {
+
+    const words = text.split(/\s+/);
+    const nonEmptyWords = words.filter(word => word.length > 0);
+    const reversedWords = [...nonEmptyWords].reverse().join(' ');
+
+    setText(reversedWords);
+    toast.success('Words reversed successfully!');
   };
 
-  const generateKeyHash = (key) => {
-    return key.split('').reduce((acc, char, i) => acc + (char.charCodeAt(0) * (i + 1)), 0).toString();
-  };
+  const handleReverseSentence = () => {
 
-  const handleEncrypt = () => {
-    if (!text.trim()) {
-      toast.error('No text to encrypt');
-      return;
-    }
+    const sentences = text.split(/([.!?])\s+/);
 
-    if (isEncrypted) {
-      toast.error('Text is already encrypted');
-      return;
-    }
-
-    if (!isValidKey()) return;
-
-    try {
-      const encodedText = encodeURIComponent(text);
-      const xorEncrypted = xorEncryptDecrypt(encodedText, encryptionKey);
-      const base64Encoded = btoa(xorEncrypted);
-      const keyHash = generateKeyHash(encryptionKey);
-
-      setText(base64Encoded);
-      setIsEncrypted(true);
-      setStoredKeyHash(keyHash);
-      toast.success('Text encrypted successfully!');
-    } catch (error) {
-      toast.error('Encryption failed: ' + error.message);
-    }
-  };
-
-  const handleDecrypt = () => {
-    if (!text.trim()) {
-      toast.error('No text to decrypt');
-      return;
-    }
-
-    if (!isEncrypted) {
-      toast.error('Text is not encrypted');
-      return;
-    }
-
-    if (!isValidKey()) return;
-
-    try {
-      const currentKeyHash = generateKeyHash(encryptionKey);
-      if (currentKeyHash !== storedKeyHash) {
-        toast.error('Wrong encryption key');
-        return;
+    const reconstructed = [];
+    for (let i = 0; i < sentences.length; i += 2) {
+      if (sentences[i]) {
+        reconstructed.push(
+          sentences[i] + (sentences[i + 1] ? sentences[i + 1] : '')
+        );
       }
-
-      const base64Decoded = atob(text);
-      const xorDecrypted = xorEncryptDecrypt(base64Decoded, encryptionKey);
-      const decodedText = decodeURIComponent(xorDecrypted);
-
-      setText(decodedText);
-      setIsEncrypted(false);
-      setStoredKeyHash('');
-      toast.success('Text decrypted successfully!');
-    } catch (error) {
-      toast.error('Decryption failed: ' + error.message);
     }
+    const reversedSentences = [...reconstructed].reverse().join(' ');
+    setText(reversedSentences);
+    toast.success('Sentences reversed successfully!');
   };
 
-  // Text-to-speech functions
-  const handleTextToSpeech = () => {
-    if (!text.trim()) {
-      toast.error('No text to speak');
-      return;
-    }
-
-    if (isSpeaking) {
-      window.speechSynthesis.cancel();
-      setIsSpeaking(false);
-      toast.info('Reading stopped');
-      return;
-    }
-
-    if (!window.speechSynthesis) {
-      toast.error('Text-to-speech not supported in your browser');
-      return;
-    }
-
-    const utterance = new SpeechSynthesisUtterance(text);
-    if (voice) utterance.voice = voice;
-
-    utterance.onend = () => {
-      setIsSpeaking(false);
-      toast.success('Speech completed');
-    };
-
-    utterance.onerror = (e) => {
-      setIsSpeaking(false);
-      toast.error('Speech error: ' + e.error);
-    };
-
-    window.speechSynthesis.speak(utterance);
-    setIsSpeaking(true);
-    toast.success('Reading text...');
+  const handleTitleCase = () => {
+    const titleCased = text
+      .toLowerCase()
+      .split(' ')
+      .map(word =>
+        word.length > 0 ? word[0].toUpperCase() + word.slice(1) : word
+      )
+      .join(' ');
+    setText(titleCased);
+    toast.success('Converted to Title Case');
   };
 
-  // Export functions
+  const handleSentenceCase = () => {
+    const sentenceCased = text
+      .toLowerCase()
+      .replace(/(^\s*\w|[.!?]+(\s+|)\w)/g, match => match.toUpperCase());
+    setText(sentenceCased);
+    toast.success('Converted to Sentence Case');
+  };
+
+  const handleToggleCase = () => {
+    setText(prevText => {
+      const toggled = prevText
+        .split('')
+        .map(char =>
+          char === char.toUpperCase() ? char.toLowerCase() : char.toUpperCase()
+        )
+        .join('');
+      return toggled;
+    });
+    toast.success('Converted to Toggle Case');
+  };
+
+
+  // Export functions (updated versions)
   const exportAsTXT = () => {
     if (!text.trim()) {
       toast.error('No text to export');
       return;
     }
-    const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
-    saveAs(blob, 'document.txt');
+
+    // Normalize line endings and add metadata
+    const normalizedText = text.replace(/\r?\n/g, '\r\n');
+    const metaHeader = `=== Exported Text ===\r\nDate: ${new Date().toLocaleString()}\r\n\r\n`;
+    const fullText = metaHeader + normalizedText;
+
+    // Add timestamp to filename
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const blob = new Blob([fullText], { type: 'text/plain;charset=utf-8' });
+    saveAs(blob, `document-${timestamp}.txt`);
     toast.success('Exported as TXT file');
   };
 
@@ -305,9 +196,24 @@ function Voice_Command({ setText, text }) {
       toast.error('No text to export');
       return;
     }
+
     const doc = new jsPDF();
-    doc.text(text, 10, 10);
-    doc.save('document.pdf');
+    const margin = 15;
+    const maxWidth = doc.internal.pageSize.getWidth() - margin * 2;
+    const lines = doc.splitTextToSize(text, maxWidth);
+
+    let y = 20;
+    lines.forEach(line => {
+      if (y > doc.internal.pageSize.getHeight() - 20) {
+        doc.addPage();
+        y = 20;
+      }
+      doc.text(line, margin, y);
+      y += 7;
+    });
+
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    doc.save(`document-${timestamp}.pdf`);
     toast.success('Exported as PDF file');
   };
 
@@ -320,50 +226,38 @@ function Voice_Command({ setText, text }) {
     try {
       const doc = new Document({
         sections: [{
-          properties: {},
-          children: text.split('\n').map(line =>
+          properties: {
+            page: {
+              margin: { top: 1000, bottom: 1000, left: 1000, right: 1000 }
+            }
+          },
+          children: [
             new Paragraph({
-              children: [new TextRun(line)]
-            })
-          )
+              children: [new TextRun({
+                text: "Exported Document",
+                bold: true,
+                size: 24,
+              })],
+              spacing: { after: 400 },
+            }),
+            ...text.split('\n').map(line =>
+              new Paragraph({
+                children: [new TextRun(line)],
+                spacing: { line: 300 },
+              })
+            )
+          ]
         }]
       });
 
       const blob = await Packer.toBlob(doc);
-      saveAs(blob, 'document.docx');
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+      saveAs(blob, `document-${timestamp}.docx`);
       toast.success('Exported as DOCX file');
     } catch (error) {
-      console.error('DOCX export error:', error);
-      toast.error('Failed to export as DOCX');
+      toast.error(`DOCX export failed: ${error.message}`);
+      console.error('DOCX error:', error);
     }
-  };
-
-  // Password generator functions
-  const generatePassword = () => {
-    const uppercaseChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    const lowercaseChars = 'abcdefghijklmnopqrstuvwxyz';
-    const numberChars = '0123456789';
-    const symbolChars = '!@#$%^&*()_+-=[]{}|;:,.<>?';
-
-    let availableChars = '';
-    if (passwordOptions.uppercase) availableChars += uppercaseChars;
-    if (passwordOptions.lowercase) availableChars += lowercaseChars;
-    if (passwordOptions.numbers) availableChars += numberChars;
-    if (passwordOptions.symbols) availableChars += symbolChars;
-
-    if (!availableChars) {
-      toast.error('No character types selected for password generation');
-      return;
-    }
-
-    let generatedPassword = '';
-    for (let i = 0; i < passwordLength; i++) {
-      const randomIndex = Math.floor(Math.random() * availableChars.length);
-      generatedPassword += availableChars[randomIndex];
-    }
-
-    setText(generatedPassword);
-    toast.success('Password generated!');
   };
 
   // Voice recognition functions

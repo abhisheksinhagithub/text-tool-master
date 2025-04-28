@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 
 
 export default function Navbar(props) {
@@ -7,7 +8,7 @@ export default function Navbar(props) {
         <nav className={`navbar navbar-expand-lg ${props.mode === 'dark' ? 'navbar-dark bg-dark' : 'navbar-light bg-light'}`}>
 
             <div className="container-fluid">
-                <a className="navbar-brand" href="/">{props.title}</a>
+                <Link className="navbar-brand" to="/">{props.title}</Link>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
@@ -16,19 +17,19 @@ export default function Navbar(props) {
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
 
                         <li className="nav-item">
-                            <a className="nav-link active" aria-current="page" href="/">Home</a>
+                            <Link className="nav-link active" aria-current="page" to="/">Home</Link>
                         </li>
 
                         <li className="nav-item">
-                            <a className="nav-link" href="/"><i className="ri-user-voice-line"></i> Control</a>
+                            <Link className="nav-link" to="/control"><i className="ri-user-voice-line"></i> Control</Link>
                         </li>
 
                         <li className="nav-item">
-                            <a className="nav-link" href="/"><i className="ri-keyboard-line"></i> Shortcuts</a>
+                            <Link className="nav-link" to="/shortcuts"><i className="ri-keyboard-line"></i> Shortcuts</Link>
                         </li>
 
                         <li className="nav-item">
-                            <a className="nav-link" href="/">{props.about}</a>
+                            <Link className="nav-link" to="/about">{props.about}</Link>
                         </li>
 
                     </ul>
