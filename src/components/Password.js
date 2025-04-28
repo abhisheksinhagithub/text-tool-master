@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { toast } from 'react-toastify';
 
 function Password({ setText }) {
     
@@ -27,7 +28,7 @@ function Password({ setText }) {
         if (passwordOptions.symbols) availableChars += symbolChars;
 
         if (!availableChars) {
-            alert('Please select at least one character type', 'warning');
+            toast.error('Please select at least one character type');
             return;
         }
 
@@ -39,16 +40,17 @@ function Password({ setText }) {
 
         setPassword(generatedPassword);
         setText(generatedPassword); // Optional: auto-fill the main text area
-        alert('Password generated!', 'success');
+
+        toast.success('Password generated!');
     };
 
     const copyPassword = () => {
         if (!password) {
-            alert('No password to copy', 'warning');
+            toast.error('No password to copy!');
             return;
         }
         navigator.clipboard.writeText(password);
-        alert('Password copied to clipboard!', 'success');
+        toast.success('Password copied to clipboard!');
     };
 
     return (

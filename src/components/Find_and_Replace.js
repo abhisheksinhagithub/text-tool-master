@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { toast } from 'react-toastify';
 
 function Find_and_Replace({ text, setText, mode }) {
 
@@ -11,32 +12,32 @@ function Find_and_Replace({ text, setText, mode }) {
     const handleFindReplace = () => {
         // Edge Case 1: Empty find field
         if (!findText.trim()) {
-            alert('Please enter text to find', 'warning');
+            toast.error('Please enter text to find') 
             return;
         }
 
         // Edge Case 2: Empty replace field
         if (!replaceText.trim()) {
-            alert('Please enter replacement text', 'warning');
+            toast.error('Please enter replacement text')
             return;
         }
 
         // Edge Case 3: No matches found
         if (!text.includes(findText)) {
-            alert(`"${findText}" not found in text`, 'danger');
+            toast.error(`"${findText}" not found in text`)  
             return;
         }
 
         // Edge Case 4: Same find/replace text
         if (findText === replaceText) {
-            alert('Find and replace texts are identical', 'info');
+            toast.info('No changes made')
             return;
         }
 
         // Main replacement logic
         const newText = text.replace(new RegExp(escapeRegExp(findText), 'g'), replaceText);
         setText(newText);
-        alert(`Replaced "${findText}" with "${replaceText}"`, 'success');
+        toast.success(`Replaced "${findText}" with "${replaceText}"`)
 
         // Helper to escape special regex characters
         function escapeRegExp(string) {

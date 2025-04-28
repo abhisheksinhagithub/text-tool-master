@@ -1,4 +1,5 @@
 import React from 'react'
+import { toast } from 'react-toastify';
 
 function Text_Reversal({text, setText}) {
 
@@ -6,6 +7,7 @@ function Text_Reversal({text, setText}) {
     const lines = text.split('\n');
     const reversedLines = [...lines].reverse().join('\n');
     setText(reversedLines);
+    toast.success('Lines reversed successfully!');
   };
 
   const handleReverseWord = () => {
@@ -15,6 +17,7 @@ function Text_Reversal({text, setText}) {
     const reversedWords = [...nonEmptyWords].reverse().join(' ');
 
     setText(reversedWords);
+    toast.success('Words reversed successfully!');
   };
 
   const handleReverseSentence = () => {
@@ -31,6 +34,7 @@ function Text_Reversal({text, setText}) {
     }
     const reversedSentences = [...reconstructed].reverse().join(' ');
     setText(reversedSentences);
+    toast.success('Sentences reversed successfully!');
   };
 
   return (

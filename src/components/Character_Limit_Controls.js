@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { toast } from 'react-toastify';
 
 function Character_Limit_Controls({ text, setText, mode }) {
 
@@ -33,9 +34,16 @@ function Character_Limit_Controls({ text, setText, mode }) {
 
     const setLimit = () => {
         const limit = parseInt(inputValue);
+
+        if (isNaN(limit) || limit <= 0) {
+            toast.error('Please enter a valid positive number!');
+            return;
+        }
+
         if (!isNaN(limit) && limit > 0) {
             setCharLimit(limit);
             setIsLimitEnabled(true);
+            toast.success(`Character limit set to ${limit} characters!`);
             if (text.length > limit) {
                 setText(text.substring(0, limit));
                 setIsExceeded(true);
@@ -46,6 +54,7 @@ function Character_Limit_Controls({ text, setText, mode }) {
     const removeLimit = () => {
         setCharLimit(0);
         setIsLimitEnabled(false);
+        toast.info('Character limit removed!');
         setInputValue('');
         setIsExceeded(false);
         inputRef.current?.focus();
@@ -98,7 +107,7 @@ function Character_Limit_Controls({ text, setText, mode }) {
                             boxShadow: 'none',
                             border: `1px solid ${isLimitEnabled ? 'orange' : 'tomato'}`,
                             backgroundColor: isLimitEnabled ? '#e9ecef' : 'white',
-                            transition: 'all 0.3s ease',
+                            transition: 'border-color 0.15s ease-in-out',
                             backgroundColor: inputColor,
                             color: textColor
                         }}

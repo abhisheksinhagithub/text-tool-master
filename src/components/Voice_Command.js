@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { saveAs } from 'file-saver';
 import { jsPDF } from 'jspdf';
 import { Document, Paragraph, Packer, TextRun } from 'docx';
+import { toast } from 'react-toastify';
 
 function Voice_Command({ setText, text }) {
   const [isListening, setIsListening] = useState(false);
@@ -170,11 +171,11 @@ function Voice_Command({ setText, text }) {
   // Encryption functions
   const isValidKey = () => {
     if (!encryptionKey.trim()) {
-      alert('Please enter an encryption key');
+      toast.error('Please enter an encryption key');
       return false;
     }
     if (encryptionKey.length < 8) {
-      alert('Encryption key must be at least 8 characters long');
+      toast.error('Encryption key must be at least 8 characters long');
       return false;
     }
     return true;
@@ -192,12 +193,12 @@ function Voice_Command({ setText, text }) {
 
   const handleEncrypt = () => {
     if (!text.trim()) {
-      alert('No text to encrypt');
+      toast.error('No text to encrypt');
       return;
     }
 
     if (isEncrypted) {
-      alert('Text is already encrypted');
+      toast.error('Text is already encrypted');
       return;
     }
 
@@ -212,20 +213,20 @@ function Voice_Command({ setText, text }) {
       setText(base64Encoded);
       setIsEncrypted(true);
       setStoredKeyHash(keyHash);
-      alert('Text encrypted successfully');
+      toast.success('Text encrypted successfully!');
     } catch (error) {
-      alert('Encryption failed');
+      toast.error('Encryption failed: ' + error.message);
     }
   };
 
   const handleDecrypt = () => {
     if (!text.trim()) {
-      alert('No text to decrypt');
+      toast.error('No text to decrypt');
       return;
     }
 
     if (!isEncrypted) {
-      alert('Text is not encrypted');
+      toast.error('Text is not encrypted');
       return;
     }
 
@@ -234,7 +235,7 @@ function Voice_Command({ setText, text }) {
     try {
       const currentKeyHash = generateKeyHash(encryptionKey);
       if (currentKeyHash !== storedKeyHash) {
-        alert('Wrong encryption key');
+        toast.error('Wrong encryption key');
         return;
       }
 
@@ -245,28 +246,28 @@ function Voice_Command({ setText, text }) {
       setText(decodedText);
       setIsEncrypted(false);
       setStoredKeyHash('');
-      alert('Text decrypted successfully');
+      toast.success('Text decrypted successfully!');
     } catch (error) {
-      alert('Invalid key or corrupted data');
+      toast.error('Decryption failed: ' + error.message);
     }
   };
 
   // Text-to-speech functions
   const handleTextToSpeech = () => {
     if (!text.trim()) {
-      alert('No text to speak');
+      toast.error('No text to speak');
       return;
     }
 
     if (isSpeaking) {
       window.speechSynthesis.cancel();
       setIsSpeaking(false);
-      alert('Speech stopped');
+      toast.info('Reading stopped');
       return;
     }
 
     if (!window.speechSynthesis) {
-      alert('Text-to-speech not supported in your browser');
+      toast.error('Text-to-speech not supported in your browser');
       return;
     }
 
@@ -275,44 +276,44 @@ function Voice_Command({ setText, text }) {
 
     utterance.onend = () => {
       setIsSpeaking(false);
-      alert('Speech completed');
+      toast.success('Speech completed');
     };
 
     utterance.onerror = (e) => {
       setIsSpeaking(false);
-      alert(`Speech error: ${e.error}`);
+      toast.error('Speech error: ' + e.error);
     };
 
     window.speechSynthesis.speak(utterance);
     setIsSpeaking(true);
-    alert('Reading text...');
+    toast.success('Reading text...');
   };
 
   // Export functions
   const exportAsTXT = () => {
     if (!text.trim()) {
-      alert('No text to export');
+      toast.error('No text to export');
       return;
     }
     const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
     saveAs(blob, 'document.txt');
-    alert('Exported as TXT file');
+    toast.success('Exported as TXT file');
   };
 
   const exportAsPDF = () => {
     if (!text.trim()) {
-      alert('No text to export');
+      toast.error('No text to export');
       return;
     }
     const doc = new jsPDF();
     doc.text(text, 10, 10);
     doc.save('document.pdf');
-    alert('Exported as PDF file');
+    toast.success('Exported as PDF file');
   };
 
   const exportAsDOC = async () => {
     if (!text.trim()) {
-      alert('No text to export');
+      toast.error('No text to export');
       return;
     }
 
@@ -330,10 +331,10 @@ function Voice_Command({ setText, text }) {
 
       const blob = await Packer.toBlob(doc);
       saveAs(blob, 'document.docx');
-      alert('Exported as DOCX file');
+      toast.success('Exported as DOCX file');
     } catch (error) {
       console.error('DOCX export error:', error);
-      alert('Failed to export as DOCX');
+      toast.error('Failed to export as DOCX');
     }
   };
 
@@ -351,7 +352,7 @@ function Voice_Command({ setText, text }) {
     if (passwordOptions.symbols) availableChars += symbolChars;
 
     if (!availableChars) {
-      alert('Please select at least one character type');
+      toast.error('No character types selected for password generation');
       return;
     }
 
@@ -362,7 +363,7 @@ function Voice_Command({ setText, text }) {
     }
 
     setText(generatedPassword);
-    alert('Password generated!');
+    toast.success('Password generated!');
   };
 
   // Voice recognition functions
@@ -370,7 +371,7 @@ function Voice_Command({ setText, text }) {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
     if (!SpeechRecognition) {
-      alert('Speech Recognition is not supported in this browser.');
+      toast.error('Speech Recognition is not supported in this browser.');
       return null;
     }
 
@@ -381,16 +382,16 @@ function Voice_Command({ setText, text }) {
     recognition.onresult = (event) => {
       const transcript = event.results[0][0].transcript;
       setText(prev => prev + ' ' + transcript);
-      alert(`Recognized: "${transcript}"`);
+      toast.success('Text recognized!');
     };
 
     recognition.onend = () => {
       setIsListening(false);
-      alert('Listening stopped.');
+      toast.info('Listening stopped.');
     };
 
     recognition.onerror = (event) => {
-      alert(`Error occurred in recognition: ${event.error}`);
+      toast.error('Recognition error: ' + event.error);
       setIsListening(false);
     };
 
@@ -406,9 +407,9 @@ function Voice_Command({ setText, text }) {
     try {
       recognitionRef.current.start();
       setIsListening(true);
-      alert('Listening... Speak now.');
+      toast.success('Listening... Speak now.');
     } catch (error) {
-      alert('Error starting recognition: ' + error.message);
+      toast.error('Error starting recognition: ' + error.message);
     }
   };
 
@@ -416,13 +417,13 @@ function Voice_Command({ setText, text }) {
     if (recognitionRef.current) {
       recognitionRef.current.stop();
       setIsListening(false);
-      alert('You stopped the speech recognition.');
+      toast.info('Listening stopped.');
     }
   };
 
   const toggleShortcuts = () => {
     setShortcutsEnabled(!shortcutsEnabled);
-    alert(`Keyboard shortcuts ${!shortcutsEnabled ? 'enabled' : 'disabled'}`);
+    toast.success(`Keyboard shortcuts ${!shortcutsEnabled ? 'enabled' : 'disabled'}`);
   };
 
   return (

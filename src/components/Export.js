@@ -3,34 +3,35 @@ import React from 'react'
 import { saveAs } from 'file-saver';
 import jsPDF from 'jspdf';
 import { Document, Paragraph, Packer, TextRun } from 'docx';
+import { toast } from 'react-toastify';
 
 function Export(props) {
 
   const exportAsTXT = () => {
     if (!props.text.trim()) {
-      alert('No text to export', 'warning');
+      toast.error('No text to export');
       return;
     }
     const blob = new Blob([props.text], { type: 'text/plain;charset=utf-8' });
     saveAs(blob, 'document.txt');
-    alert('Exported as TXT file', 'success');
+    toast.success('Exported as TXT file');
   };
 
   const exportAsPDF = () => {
     if (!props.text.trim()) {
-      alert('No text to export', 'warning');
+      toast.error('No text to export');
       return;
     }
     const doc = new jsPDF();
     doc.text(props.text, 10, 10);
     doc.save('document.pdf');
-    alert('Exported as PDF file', 'success');
+    toast.success('Exported as PDF file');
   };
 
   // New DOCX export using docx
   const exportAsDOC = async () => {
     if (!props.text.trim()) {
-      alert('No text to export', 'warning');
+      toast.error('No text to export');
       return;
     }
 
@@ -48,10 +49,10 @@ function Export(props) {
 
       const blob = await Packer.toBlob(doc);
       saveAs(blob, 'document.docx');
-      alert('Exported as DOCX file', 'success');
+      toast.success('Exported as DOCX file');
     } catch (error) {
       console.error('DOCX export error:', error);
-      alert('Failed to export as DOCX', 'danger');
+      toast.error('Failed to export as DOCX file');
     }
   };
 

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 function Text_to_Speech({ text, mode }) {
 
@@ -33,7 +34,7 @@ function Text_to_Speech({ text, mode }) {
   const handleTextToSpeech = () => {
     // Edge Case 1: Empty text
     if (!text.trim()) {
-      alert('No text to speak', 'warning');
+      toast.error('Please enter some text to read aloud') 
       return;
     }
 
@@ -41,13 +42,13 @@ function Text_to_Speech({ text, mode }) {
     if (isSpeaking) {
       speech.cancel();
       setIsSpeaking(false);
-      alert('Speech stopped', 'info');
+      toast.info('Reading stopped')
       return;
     }
 
     // Edge Case 3: Browser not supported
     if (!speech) {
-      alert('Text-to-speech not supported in your browser', 'danger');
+      toast.error('Your browser does not support text-to-speech functionality')
       return;
     }
 
@@ -60,17 +61,17 @@ function Text_to_Speech({ text, mode }) {
     // Event handlers
     utterance.onend = () => {
       setIsSpeaking(false);
-      alert('Speech completed', 'success');
+      toast.success('Reading completed')
     };
 
     utterance.onerror = (e) => {
       setIsSpeaking(false);
-      alert(`Speech error: ${e.error}`, 'danger');
+      toast.error(`Speech error: ${e.error}`)
     };
 
     speech.speak(utterance);
     setIsSpeaking(true);
-    alert('Reading text...', 'info');
+    toast.info('Reading text...')
   };
 
   return (

@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { toast } from 'react-toastify';
 
 function Remove_Content({ text, setText, mode }) {
 
@@ -10,21 +11,21 @@ function Remove_Content({ text, setText, mode }) {
 
     const handleRemoveWord = () => {
         if (!wordToRemove.trim()) {
-            alert('Please enter a word to remove', 'warning');
+            toast.error('Please enter a word to remove');
             return;
         }
 
         const regex = new RegExp(`\\b${wordToRemove}\\b`, 'g');
 
         if (!text.match(regex)) {
-            alert(`No matches found for "${wordToRemove}"`, 'danger');
+            toast.error(`"${wordToRemove}" not found`);
             return;
         }
 
         const newText = text.replace(regex, '').replace(/\s+/g, ' ').trim();
 
         setText(newText);
-        alert(`Removed "${wordToRemove}"`, 'success');
+        toast.success(`Removed "${wordToRemove}"`);
         setWordToRemove('');
     }
 
@@ -32,20 +33,20 @@ function Remove_Content({ text, setText, mode }) {
     const handleRemoveChar = () => {
         // Empty input check
         if (!charToRemove) {
-            alert('Please enter a character', 'warning');
+            toast.error('Please enter a character to remove');
             return;
         }
 
         // Character not found check (case-sensitive)
         if (!text.includes(charToRemove)) {
-            alert(`"${charToRemove}" not found`, 'danger');
+            toast.error(`"${charToRemove}" not found`);
             return;
         }
 
         // Perform removal
         const newText = text.split(charToRemove).join('');
         setText(newText);
-        alert(`Removed all "${charToRemove}" characters`, 'success');
+        toast.success(`Removed all "${charToRemove}" characters`);
         setCharToRemove(''); // Clear input
     };
 

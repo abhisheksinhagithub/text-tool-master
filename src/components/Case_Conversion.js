@@ -1,4 +1,5 @@
 import React from 'react'
+import { toast } from 'react-toastify';
 
 function Case_Conversion({ text, setText }) {
 
@@ -11,6 +12,7 @@ function Case_Conversion({ text, setText }) {
       )
       .join(' ');
     setText(titleCased);
+    toast.success('Converted to Title Case');
   };
 
   const handleSentenceCase = () => {
@@ -18,6 +20,7 @@ function Case_Conversion({ text, setText }) {
       .toLowerCase()
       .replace(/(^\s*\w|[.!?]+(\s+|)\w)/g, match => match.toUpperCase());
     setText(sentenceCased);
+    toast.success('Converted to Sentence Case');
   };
 
   const handleToggleCase = () => {
@@ -28,6 +31,7 @@ function Case_Conversion({ text, setText }) {
       )
       .join('');
     setText(toggled);
+    toast.success('Converted to Toggle Case');
   };
 
   return (

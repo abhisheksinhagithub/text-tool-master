@@ -1,29 +1,34 @@
 import React from 'react'
+import { toast } from 'react-toastify';
 
 function Basic_Op({ text, setText }) {
 
   const handleUpClick = () => {
     let newText = text.toUpperCase();
     setText(newText)
+    toast.success('Converted to UpperCase!');
   }
 
   const handleLowClick = () => {
     let newText = text.toLowerCase();
     setText(newText);
+    toast.success('Converted to LowerCase!');
   };
 
   const handleCopy = () => {
     navigator.clipboard.writeText(text);
-    alert("Copied to clipboard!");
+    toast.success('Copied to clipboard!');
   };
 
   const handleClear = () => {
     setText('');
+    toast.success('Text cleared!');
   };
 
   const handleRemoveSpaces = () => {
     let newText = text.replace(/\s+/g, ' ').trim();
     setText(newText);
+    toast.success('Removed extra spaces!');
   };
 
   return (

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 
 function Encrypt_Decrypt({ text, setText, mode }) {
 
@@ -11,11 +12,11 @@ function Encrypt_Decrypt({ text, setText, mode }) {
 
     const isValidKey = () => {
         if (!encryptionKey.trim()) {
-            alert('Please enter an encryption key');
+            toast.error('Encryption key cannot be empty');
             return false;
         }
         if (encryptionKey.length < 8) {
-            alert('Encryption key must be at least 8 characters long');
+            toast.error('Encryption key must be at least 8 characters long');
             return false;
         }
         return true;
@@ -34,12 +35,12 @@ function Encrypt_Decrypt({ text, setText, mode }) {
 
     const handleEncrypt = () => {
         if (!text.trim()) {
-            alert('No text to encrypt');
+            toast.error('No text to encrypt');
             return;
         }
 
         if (isEncrypted) {
-            alert('Text is already encrypted');
+            toast.error('Text is already encrypted');
             return;
         }
 
@@ -54,20 +55,20 @@ function Encrypt_Decrypt({ text, setText, mode }) {
             setText(base64Encoded);
             setIsEncrypted(true);
             setStoredKeyHash(keyHash);
-            alert('Text encrypted successfully');
+            toast.success('Text encrypted successfully');
         } catch (error) {
-            alert('Encryption failed');
+            toast.error('Encryption failed');
         }
     };
 
     const handleDecrypt = () => {
         if (!text.trim()) {
-            alert('No text to decrypt');
+            toast.error('No text to decrypt');
             return;
         }
 
         if (!isEncrypted) {
-            alert('Text is not encrypted');
+            toast.error('Text is not encrypted');
             return;
         }
 
@@ -76,7 +77,7 @@ function Encrypt_Decrypt({ text, setText, mode }) {
         try {
             const currentKeyHash = generateKeyHash(encryptionKey);
             if (currentKeyHash !== storedKeyHash) {
-                alert('Wrong encryption key');
+                toast.error('Wrong encryption key');
                 return;
             }
 
@@ -87,9 +88,9 @@ function Encrypt_Decrypt({ text, setText, mode }) {
             setText(decodedText);
             setIsEncrypted(false);
             setStoredKeyHash('');
-            alert('Text decrypted successfully');
+            toast.success('Text decrypted successfully');
         } catch (error) {
-            alert('Invalid key or corrupted data');
+            toast.error('Decryption failed');
         }
     };
 
