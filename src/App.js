@@ -9,7 +9,7 @@ import SummaryPreview from './components/SummaryPreview';
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Shortcuts from './components/Shortcuts';
-// import Control from './components/Control';
+import Control from './components/Control';
 
 function App() {
   const [text, setText] = useState('');
@@ -57,6 +57,7 @@ function App() {
             }
           />
 
+          <Route path="/control" element={<Control mode={mode} />} />
           <Route path="/shortcuts" element={<Shortcuts mode={mode} />} />
           <Route path="/about" element={<About mode={mode} />} />
 
