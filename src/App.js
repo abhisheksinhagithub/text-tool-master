@@ -10,6 +10,7 @@ import SummaryPreview from './components/SummaryPreview';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Shortcuts from './components/Shortcuts';
 import Control from './components/Control';
+import Footer from './components/Footer';
 
 function App() {
   const [text, setText] = useState('');
@@ -53,13 +54,20 @@ function App() {
                   text={text}
                   mode={mode}
                 />
+                <Footer mode={mode} />
               </>
             }
           />
 
           <Route path="/control" element={<Control mode={mode} />} />
           <Route path="/shortcuts" element={<Shortcuts mode={mode} />} />
-          <Route path="/about" element={<About mode={mode} />} />
+
+          <Route path="/about" element={
+            <>
+              <About mode={mode} />
+              <Footer mode={mode} />
+            </>
+          } />
 
         </Routes>
 
