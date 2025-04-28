@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import ttmLogo from './assets/ttm.png';
+import ttmLogo from '../assets/ttm.png';
 
 
 export default function Footer({ mode }) {
@@ -41,15 +41,7 @@ export default function Footer({ mode }) {
                 }}
               />
 
-              <Link
-                to="/"
-                style={linkStyle}
-                onMouseOver={e => e.target.style.color = linkHoverColor}
-                onMouseOut={e => e.target.style.color = textColor}
-              >
-                <h5 className="mb-0">Text Tool Master</h5>
-              </Link>
-
+            <h5 className="mb-0">Text Tool Master</h5>
             </div>
             <p className="mb-0">The Ultimate Text Toolkit - Convert, Analyze, Edit & Command with Voice</p>
           </div>
