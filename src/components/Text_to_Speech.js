@@ -93,7 +93,7 @@ function Text_to_Speech({ text, mode }) {
           disabled={!text.trim()}
           onClick={handleTextToSpeech}
           type="button"
-          className={`btn btn-sm ${isSpeaking ? 'btn-danger' : 'btn-primary'}`}
+          className={`btn btn-sm ${isSpeaking ? 'btn-danger' : 'btn-primary'} my-1`}
         >
           <i className={`ri-${isSpeaking ? 'stop-fill' : 'volume-up-fill'}`}></i>
           {isSpeaking ? ' Stop' : ' Read Aloud'}
@@ -102,7 +102,7 @@ function Text_to_Speech({ text, mode }) {
         {/* Voice Selection */}
         {voices.length > 0 && (
           <select
-            className="form-select form-select-sm"
+            className="form-select form-select-sm my-1"
             value={voices.indexOf(voice)}
             onChange={(e) => setVoice(voices[e.target.value])}
             style={{

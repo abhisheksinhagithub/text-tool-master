@@ -50,9 +50,9 @@ function Text_Reversal({text, setText}) {
                 Text Reversal
             </button>
 
-            <button disabled={text.length === 0} onClick={handleReverseLine} type="button" className="btn btn-warning btn-sm me-2"><i className="ri-timeline-view"></i> Reverse Line</button>
-            <button disabled={text.length === 0} onClick={handleReverseWord} type="button" className="btn btn-warning btn-sm me-2">Reverse Word</button>
-            <button disabled={text.length === 0} onClick={handleReverseSentence} type="button" className="btn btn-warning btn-sm me-2">Reverse Sentence</button>
+            <button disabled={text.length === 0} onClick={handleReverseLine} type="button" className="btn btn-warning btn-sm me-2 my-1"><i className="ri-timeline-view"></i> Reverse Line</button>
+            <button disabled={text.length === 0} onClick={handleReverseWord} type="button" className="btn btn-warning btn-sm me-2 my-1">Reverse Word</button>
+            <button disabled={text.length === 0} onClick={handleReverseSentence} type="button" className="btn btn-warning btn-sm me-2 my-1">Reverse Sentence</button>
     </div>
   )
 }

@@ -65,7 +65,7 @@ function Remove_Content({ text, setText, mode }) {
 
             <div className="d-flex align-items-center">
                 {/* Word Removal */}
-                <div className="input-group me-1" style={{ width: '300px' }}>
+                <div className="input-group me-1 my-1" style={{ width: '300px' }}>
                     <input
                         type="text"
                         className="form-control form-control-sm custom-textarea"
@@ -84,7 +84,7 @@ function Remove_Content({ text, setText, mode }) {
                 </div>
 
                 <button
-                    className="btn btn-danger btn-sm me-3"
+                    className="btn btn-danger btn-sm me-3 my-1"
                     onClick={handleRemoveWord}
                     disabled={!wordToRemove.trim() || !text.trim()}
 
@@ -93,7 +93,7 @@ function Remove_Content({ text, setText, mode }) {
                 </button>
 
                 {/* Character Removal */}
-                <div className="input-group me-1" style={{ width: '225px' }}>
+                <div className="input-group me-1 my-1" style={{ width: '225px' }}>
                     <input
                         type="text"
                         maxLength={1}
@@ -113,7 +113,7 @@ function Remove_Content({ text, setText, mode }) {
 
                 </div>
                 <button
-                    className="btn btn-danger btn-sm"
+                    className="btn btn-danger btn-sm me-3 my-1"
                     onClick={handleRemoveChar}
                     disabled={!charToRemove || !text.trim()}
                 >

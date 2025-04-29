@@ -106,13 +106,13 @@ function Export(props) {
         Export Options
       </button>
 
-      <button disabled={!props.text.trim()} onClick={exportAsTXT} className="btn btn-success btn-sm me-2">
+      <button disabled={!props.text.trim()} onClick={exportAsTXT} className="btn btn-success btn-sm me-2 my-1">
         <i className="ri-export-fill"></i> Export as TXT
       </button>
-      <button disabled={!props.text.trim()} onClick={exportAsPDF} className="btn btn-primary btn-sm me-2">
+      <button disabled={!props.text.trim()} onClick={exportAsPDF} className="btn btn-primary btn-sm me-2 my-1">
         <i className="ri-export-fill"></i> Export as PDF
       </button>
-      <button disabled={!props.text.trim()} onClick={exportAsDOC} className="btn btn-warning btn-sm me-2">
+      <button disabled={!props.text.trim()} onClick={exportAsDOC} className="btn btn-warning btn-sm me-2 my-1">
         <i className="ri-export-fill"></i> Export as DOC
       </button>
     </div>

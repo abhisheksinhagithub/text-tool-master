@@ -44,11 +44,11 @@ function Basic_Op({ text, setText }) {
         Basic Text Operations
       </button>
 
-      <button disabled={text.length === 0} onClick={handleUpClick} type="button" className="btn btn-primary btn-sm me-2">Convert to UpperCase</button>
-      <button disabled={text.length === 0} onClick={handleLowClick} type="button" className="btn btn-primary btn-sm me-2">Convert to LowerCase</button>
-      <button disabled={text.length === 0} onClick={handleCopy} type="button" className="btn btn-primary btn-sm me-2"> <i className="ri-clipboard-fill"></i> Copy Text</button>
-      <button disabled={text.length === 0} onClick={handleRemoveSpaces} type="button" className="btn btn-primary btn-sm me-2"><i className="ri-eraser-fill"></i> Remove Extra Spaces</button>
-      <button disabled={text.length === 0} onClick={handleClear} type="button" className="btn btn-primary btn-sm me-2"><i className="ri-delete-bin-fill"></i> Clear Text</button>
+      <button disabled={text.length === 0} onClick={handleUpClick} type="button" className="btn btn-primary btn-sm me-2 my-1">Convert to UpperCase</button>
+      <button disabled={text.length === 0} onClick={handleLowClick} type="button" className="btn btn-primary btn-sm me-2 my-1">Convert to LowerCase</button>
+      <button disabled={text.length === 0} onClick={handleCopy} type="button" className="btn btn-primary btn-sm me-2 my-1"> <i className="ri-clipboard-fill"></i> Copy Text</button>
+      <button disabled={text.length === 0} onClick={handleRemoveSpaces} type="button" className="btn btn-primary btn-sm me-2 my-1"><i className="ri-eraser-fill"></i> Remove Extra Spaces</button>
+      <button disabled={text.length === 0} onClick={handleClear} type="button" className="btn btn-primary btn-sm me-2 my-1"><i className="ri-delete-bin-fill"></i> Clear Text</button>
     </div>
   )
 }

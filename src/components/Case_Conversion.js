@@ -47,9 +47,9 @@ function Case_Conversion({ text, setText }) {
         Case Conversion
       </button>
 
-      <button disabled={text.length === 0} onClick={handleTitleCase} type="button" className="btn btn-success btn-sm me-2">Title Case</button>
-      <button disabled={text.length === 0} onClick={handleSentenceCase} type="button" className="btn btn-success btn-sm me-2">Sentence Case</button>
-      <button disabled={text.length === 0} onClick={handleToggleCase} type="button" className="btn btn-success btn-sm me-2">Toggle Case</button>
+      <button disabled={text.length === 0} onClick={handleTitleCase} type="button" className="btn btn-success btn-sm me-2 my-1">Title Case</button>
+      <button disabled={text.length === 0} onClick={handleSentenceCase} type="button" className="btn btn-success btn-sm me-2 my-1">Sentence Case</button>
+      <button disabled={text.length === 0} onClick={handleToggleCase} type="button" className="btn btn-success btn-sm me-2 my-1">Toggle Case</button>
     </div>
   )
 }

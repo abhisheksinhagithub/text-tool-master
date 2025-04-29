@@ -61,7 +61,7 @@ function Find_and_Replace({ text, setText, mode }) {
 
             <div className="d-flex align-items-center gap-2">
                 {/* Find Input */}
-                <div className="col-md-3">
+                <div className="col-md-3 my-1">
                     <div className="input-group input-group-sm">
                         <span className="input-group-text" style={{
                             backgroundColor: '#673ab7',
@@ -87,7 +87,7 @@ function Find_and_Replace({ text, setText, mode }) {
                 </div>
 
                 {/* Replace Input */}
-                <div className="col-md-3">
+                <div className="col-md-3 my-1">
                     <div className="input-group input-group-sm">
                         <span className="input-group-text" style={{
                             backgroundColor: '#673ab7',
@@ -118,7 +118,7 @@ function Find_and_Replace({ text, setText, mode }) {
                         disabled={text.length === 0 || findText.length === 0 || replaceText.length === 0}
                         onClick={handleFindReplace}
                         type="button"
-                        className="btn btn-danger btn-sm"
+                        className="btn btn-danger btn-sm my-1"
 
                     >
                         <i className="ri-find-replace-fill"></i> Replace All

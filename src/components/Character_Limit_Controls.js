@@ -91,7 +91,7 @@ function Character_Limit_Controls({ text, setText, mode }) {
             </button>
 
             <div className="d-flex align-items-center">
-                <div className="input-group me-1" style={{ width: '250px' }}>
+                <div className="input-group me-1 my-1" style={{ width: '250px' }}>
                     <input
                         ref={inputRef}
                         type="number"
@@ -115,7 +115,7 @@ function Character_Limit_Controls({ text, setText, mode }) {
                 </div>
 
                 <button
-                    className="btn btn-success btn-sm me-2"
+                    className="btn btn-success btn-sm me-2 my-1"
                     onClick={setLimit}
                     disabled={!inputValue || isLimitEnabled}
                     aria-label="Set character limit"
@@ -128,7 +128,7 @@ function Character_Limit_Controls({ text, setText, mode }) {
                 </button>
 
                 <button
-                    className="btn btn-danger btn-sm me-2"
+                    className="btn btn-danger btn-sm me-2 my-1"
                     onClick={removeLimit}
                     disabled={!isLimitEnabled}
                     aria-label="Remove character limit"
@@ -141,7 +141,7 @@ function Character_Limit_Controls({ text, setText, mode }) {
                 </button>
 
                 <div className="flex-grow-1">
-                    <div className="progress" style={{ height: '24px', width: '350px', position: 'relative' }}>
+                    <div className="progress my-1" style={{ height: '24px', width: '350px', position: 'relative' }}>
                         <div
                             className={`progress-bar ${getProgressBarColor()} text-white`}
                             role="progressbar"

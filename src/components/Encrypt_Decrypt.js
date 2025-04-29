@@ -109,7 +109,7 @@ function Encrypt_Decrypt({ text, setText, mode }) {
             </button>
 
             <div className="d-flex align-items-center">
-                <div className="input-group me-1" style={{ width: '410px' }}>
+                <div className="input-group me-1 my-1" style={{ width: '410px' }}>
                     <input
                         type="password"
                         className="form-control form-control-sm custom-textarea"
@@ -128,7 +128,7 @@ function Encrypt_Decrypt({ text, setText, mode }) {
                 </div>
 
                 <button
-                    className="btn btn-primary btn-sm me-2"
+                    className="btn btn-primary btn-sm me-2 my-1"
                     onClick={handleEncrypt}
                     disabled={!text.trim() || isEncrypted}
                 >
@@ -136,7 +136,7 @@ function Encrypt_Decrypt({ text, setText, mode }) {
                 </button>
 
                 <button
-                    className="btn btn-success btn-sm me-2"
+                    className="btn btn-success btn-sm me-2 my-1"
                     onClick={handleDecrypt}
                     disabled={!isEncrypted}
                 >

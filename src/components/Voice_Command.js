@@ -337,7 +337,7 @@ function Voice_Command({ setText, text }) {
       <button
         onClick={handleStartListening}
         type="button"
-        className={`btn btn-sm me-2 ${isListening ? 'btn-success' : 'btn-primary'}`}
+        className={`btn btn-sm me-2 my-1 ${isListening ? 'btn-success' : 'btn-primary'}`}
         disabled={isListening}
       >
         <i className="ri-speak-line me-1"></i>
@@ -348,7 +348,7 @@ function Voice_Command({ setText, text }) {
         <button
           onClick={handleStopListening}
           type="button"
-          className="btn btn-sm btn-danger me-2"
+          className="btn btn-sm btn-danger me-2 my-1"
         >
           <i className='ri-stop-fill'></i> Stop
         </button>
@@ -357,7 +357,7 @@ function Voice_Command({ setText, text }) {
       <button
         onClick={toggleShortcuts}
         type="button"
-        className={`btn btn-sm me-2 ${shortcutsEnabled ? 'btn-success' : 'btn-primary'}`}
+        className={`btn btn-sm me-2 my-1 ${shortcutsEnabled ? 'btn-success' : 'btn-primary'}`}
         disabled={text.length === 0}
       >
         <i className="ri-command-fill"></i> Shortcuts {shortcutsEnabled ? '(ON)' : '(OFF)'}

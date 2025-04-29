@@ -69,7 +69,7 @@ function Password({ setText }) {
 
             <div className="d-flex align-items-center flex-wrap">
                 {/* Range Input - Made compact */}
-                <div className="me-3" style={{ minWidth: "150px" }}>
+                <div className="me-3 my-1" style={{ minWidth: "150px" }}>
                     <label className="form-label small mb-1 d-block">Length:{passwordLength}</label>
                     <div className="d-flex align-items-center">
                         <input
@@ -86,7 +86,7 @@ function Password({ setText }) {
 
                 {/* Checkboxes - Uniform small styling */}
                 <div className="d-flex flex-wrap mt-4">
-                    <div className="form-check form-check-inline">
+                    <div className="form-check form-check-inline my-1">
                         <input
                             className="form-check-input"
                             type="checkbox"
@@ -106,7 +106,7 @@ function Password({ setText }) {
                             Uppercase (A-Z)
                         </label>
                     </div>
-                    <div className="form-check form-check-inline">
+                    <div className="form-check form-check-inline my-1">
                         <input
                             className="form-check-input"
                             type="checkbox"
@@ -126,7 +126,7 @@ function Password({ setText }) {
                             Lowercase (a-z)
                         </label>
                     </div>
-                    <div className="form-check form-check-inline">
+                    <div className="form-check form-check-inline my-1">
                         <input
                             className="form-check-input"
                             type="checkbox"
@@ -146,7 +146,7 @@ function Password({ setText }) {
                             Numbers (0-9)
                         </label>
                     </div>
-                    <div className="form-check form-check-inline">
+                    <div className="form-check form-check-inline my-1">
                         <input
                             className="form-check-input"
                             type="checkbox"
@@ -167,12 +167,12 @@ function Password({ setText }) {
                     </div>
                 </div>
 
-                <button onClick={generatePassword} type="button" className="btn btn-sm mt-4 me-2" style={{
+                <button onClick={generatePassword} type="button" className="btn btn-sm mt-4 me-2 my-1" style={{
                     backgroundColor: '#673ab7',
                     color: 'white'
                 }}> <i className="ri-lock-password-fill"></i> Generate Password</button>
 
-                <button onClick={copyPassword} type="button" className="btn btn-sm mt-4 me-2" style={{
+                <button onClick={copyPassword} type="button" className="btn btn-sm mt-4 me-2 my-1" style={{
                     backgroundColor: '#673ab7',
                     color: 'white'
                 }}>Copy Password</button>

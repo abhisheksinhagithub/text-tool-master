@@ -42,3 +42,13 @@
   color: gray; /* or any color you want */
   opacity: 1; /* make sure it's fully visible */
 }
+
+/* Make accordion arrow white (Bootstrap's default uses ::after) */
+.accordion-button::after {
+  filter: brightness(0) invert(1); /* Makes the SVG icon white */
+}
+
+/* If you're using ::before anywhere for icons/text, ensure it's also white */
+.accordion-button::before {
+  color: white;
+}
