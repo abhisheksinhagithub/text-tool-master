@@ -1,11 +1,5 @@
 import React from 'react';
 
-// #495057
-// #343a40
-// #212529
-//rgb(20, 20, 20)
-// #0d0c0c
-
 export default function About(props) {
 
     const accordionHeaderBg = props.mode === 'dark' ? '#0d0c0c' : '#343a40';
