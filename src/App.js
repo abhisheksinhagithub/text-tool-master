@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
@@ -16,23 +16,27 @@ import NotFound from './components/NotFound';
 
 function App() {
   const [text, setText] = useState('');
-  const [mode, setMode] = useState('light');
+  const [mode, setMode] = useState(() => {
+    // Get mode from localStorage or default to light
+    return localStorage.getItem('mode') || 'light';
+  });
 
-  const toggleMode = () => {
-    if (mode === 'light') {
-      setMode('dark');
+   // Sync body style and localStorage whenever mode changes
+   useEffect(() => {
+    if (mode === 'dark') {
       document.body.style.backgroundColor = 'black';
       document.body.style.color = 'white';
-
-      toast.success('Dark mode has been enabled');
     } else {
-      setMode('light');
       document.body.style.backgroundColor = 'white';
       document.body.style.color = 'black';
-
-      toast.success('Light mode has been enabled');
     }
-  }
+    localStorage.setItem('mode', mode); // Save mode to localStorage
+  }, [mode]);
+
+  const toggleMode = () => {
+    setMode(prevMode => (prevMode === 'light' ? 'dark' : 'light'));
+    toast.success(`${mode === 'light' ? 'Dark' : 'Light'} mode has been enabled`);
+  };
 
   return (
     <>
@@ -76,7 +80,7 @@ function App() {
             <NotFound mode={mode} />
             <Footer mode={mode} />
           </>} />
-          
+
         </Routes>
         
       </Router>

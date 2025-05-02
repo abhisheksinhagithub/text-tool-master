@@ -35,7 +35,7 @@ export default function Navbar(props) {
                     </ul>
 
                     <div className="form-check form-switch">
-                        <input onClick={props.toggleMode} className="form-check-input" type="checkbox" role="switch" id="switchCheckDefault" style={{
+                        <input onClick={props.toggleMode} checked={props.mode === 'dark'} className="form-check-input" type="checkbox" role="switch" id="switchCheckDefault" style={{
                             outline: '1px solid black',
                             boxShadow: 'none',
                             transition: 'border-color 0.15s ease-in-out'
