@@ -12,6 +12,8 @@ import Shortcuts from './components/Shortcuts';
 import Control from './components/Control';
 import Footer from './components/Footer';
 
+import NotFound from './components/NotFound';
+
 function App() {
   const [text, setText] = useState('');
   const [mode, setMode] = useState('light');
@@ -69,8 +71,14 @@ function App() {
             </>
           } />
 
+          <Route path="*" element={
+            <>
+            <NotFound mode={mode} />
+            <Footer mode={mode} />
+          </>} />
+          
         </Routes>
-
+        
       </Router>
 
     </>
