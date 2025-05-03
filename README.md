@@ -1,7 +1,15 @@
 # [Text-Tool-Master](https://text-tool-master.netlify.app/) <img src="https://img.shields.io/badge/🚀-Live_Project-blue?style=flat" alt="Live Project">
 
-**The Ultimate Text Processing Toolkit ✨**  
-Convert, Analyze, Edit & Command with Voice — all in one place.
+**Text-Tool-Master** is a powerful and user-friendly web app that offers 15+ advanced tools to manipulate, analyze, and convert text with ease. Whether you're a developer, writer, student, or productivity geek, this all-in-one toolkit helps you:
+
+- 🔠 Convert text: Uppercase, lowercase, title case, reverse text, and more  
+- 🔍 Analyze content: Word/character/sentence count, reading time  
+- 🔒 Ensure privacy: Encrypt/decrypt sensitive data  
+- 🗣️ Use voice commands: Dictate text and hear it back with TTS  
+- 📁 Export text: Save as TXT, PDF, or DOCX  
+- ✨ And much more — all in a sleek, responsive UI  
+
+No sign-up required. 100% open-source. Built with React & Bootstrap.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![React](https://img.shields.io/badge/React-18.2.0-blue)](https://reactjs.org/)
